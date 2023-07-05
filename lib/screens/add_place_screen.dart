@@ -1,6 +1,12 @@
+//import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
+import 'package:places_app/providers/user_places.dart';
 
 import '../widgets/image_input_widget.dart';
+import 'package:provider/provider.dart';
+//import '../models/place.dart';
+import 'dart:io';
 
 class AddPlaceScreen extends StatefulWidget {
   static const routeName = '/add-place';
@@ -12,6 +18,22 @@ class AddPlaceScreen extends StatefulWidget {
 
 class _AddPlaceScreenState extends State<AddPlaceScreen> {
   final _titleController = TextEditingController();
+  File? _pickedImage;
+
+  void _selectImage(File? pickedImage) {
+    _pickedImage = pickedImage;
+  }
+
+  void _savePlace() {
+    //print("save button pressed");
+    if (_titleController.text.isEmpty || _pickedImage == null) {
+      return;
+    }
+    Provider.of<UserPlaces>(context, listen: false)
+        .addPlace(_titleController.text, _pickedImage!);
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +65,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
                     const SizedBox(
                       height: 10,
                     ),
-                    const ImageInputWidet()
+                    ImageInputWidet(_selectImage)
                   ],
                 ),
               ),
@@ -53,7 +75,7 @@ class _AddPlaceScreenState extends State<AddPlaceScreen> {
               style: const ButtonStyle(
                 backgroundColor: MaterialStatePropertyAll(Colors.purple),
               ),
-              onPressed: () {},
+              onPressed: _savePlace,
               icon: const Icon(Icons.add),
               label: const Text('Add Place')),
         ],
