@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart' as syspath;
 
 import 'dart:io';
 
@@ -10,7 +9,7 @@ import 'package:path_provider/path_provider.dart';
 class ImageInputWidet extends StatefulWidget {
   final Function onSelectImage;
 
-  ImageInputWidet(this.onSelectImage);
+  const ImageInputWidet(this.onSelectImage, {super.key});
 
   @override
   State<ImageInputWidet> createState() => _ImageInputWidetState();
