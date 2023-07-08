@@ -18,61 +18,21 @@ class ImageInputWidet extends StatefulWidget {
 class _ImageInputWidetState extends State<ImageInputWidet> {
   File? _storedImage;
 
-  // Future<void> _pickPicture() async {
-  //   final picker = ImagePicker();
-  //   final responseImage = await picker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 600,
-  //   );
-  //   if (responseImage == null) {
-  //     return;
-  //   }
-  //   setState(() {
-  //     _storedImage = File(responseImage.path);
-  //   });
-  //   final appDir = await syspath.getApplicationDocumentsDirectory();
-  //   final fileName = path.basename(responseImage.path);
-  //   final savedImage = await responseImage.saveTo('${appDir.path}/$fileName');
-  //   widget.onSelectImage(savedImage);
-  // }
-  // Future<void> _pickPicture() async {
-  //   final picker = ImagePicker();
-  //   final responseImage = await picker.pickImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 600,
-  //   );
-  //   if (responseImage == null) {
-  //     return;
-  //   }
-  //   setState(() {
-  //     if (responseImage != null) {
-  //       _storedImage = File(responseImage.path);
-  //     }
-  //   });
-  //   final appDir = await syspath.getApplicationDocumentsDirectory();
-  //   final fileName = path.basename(responseImage.path);
-  //   final savedImage = await responseImage.saveTo('${appDir.path}/$fileName');
-  //   widget.onSelectImage(savedImage);
-  // }
-
   Future<void> pickAndSaveImage() async {
     final picker = ImagePicker();
     final pickedImage = await picker.pickImage(
       source: ImageSource.gallery,
       maxWidth: 600,
     );
-
     setState(() {
       if (pickedImage == null) {
         return;
       }
       _storedImage = File(pickedImage.path);
     });
-
     final appDir = await getApplicationDocumentsDirectory();
     final fileName = path.basename(pickedImage!.path);
     final savedImagePath = path.join(appDir.path, fileName);
-
     final imageFile = File(pickedImage.path);
     final savedImage = await imageFile.copy(savedImagePath);
     widget.onSelectImage(savedImage);

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:places_app/helpers/db_helpers.dart';
 
 import '../models/place.dart';
 import 'dart:io';
@@ -18,5 +19,10 @@ class UserPlaces with ChangeNotifier {
         image: pickedImage);
     _items.add(newPlace);
     notifyListeners();
+    DbHelper().insert("place", {
+      "id": newPlace.id,
+      "title": newPlace.title,
+      "image": newPlace.image.path,
+    });
   }
 }
