@@ -24,7 +24,6 @@ class DbHelper {
       onCreate: (db, version) async {
         await db.execute(
             "CREATE TABLE user_places(id INTEGER PRIMARY KEY, title TEXT, image TEXT)");
-        print("Created Tables");
       },
     );
     return theDb;
@@ -33,5 +32,10 @@ class DbHelper {
   Future<void> insert(String table, Map<String, dynamic> data) async {
     final dbClient = await db;
     dbClient!.insert(table, data, conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<List<Map<String, dynamic>>> fetchAndSetData(String table) async {
+    final dbClient = await db;
+    return dbClient!.query(table);
   }
 }

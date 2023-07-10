@@ -25,4 +25,15 @@ class UserPlaces with ChangeNotifier {
       "image": newPlace.image.path,
     });
   }
+
+  Future<void> getAndSetList() async {
+    final dataList = await DbHelper().fetchAndSetData("table");
+    _items = dataList
+        .map(
+          (item) => Place(
+              id: item['id'], title: item['title'], image: File(item['image'])),
+        )
+        .toList();
+    notifyListeners();
+  }
 }
